@@ -20,7 +20,7 @@ mongoose.connect('mongodb://localhost:27017')
 
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Hello World! abc')
 })
 
 app.post('/join', (req, res) => {
@@ -39,10 +39,10 @@ app.post('/join', (req, res) => {
         return res.json({success: false, err })
       }
       //성공했다면 이것을 보내준다.
-      return res.json({
+      console.log("success")
+      return res.status(200).json({
         success: true
       })
-      
     })
 })
 

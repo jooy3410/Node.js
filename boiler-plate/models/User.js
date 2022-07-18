@@ -36,4 +36,4 @@ const userSchema = mongoose.Schema({
 const User = mongoose.model('User', userSchema)
 
 //다른곳에서도 쓸 수 있게 exports해준다
-module.exports = { User}
+module.exports = { User }
