@@ -2,7 +2,10 @@ const express = require('express')
 const app = express()
 const port = 5000
 const bodyParser = require('body-parser');
+require("dotenv").config({ path: "/data/node/NodeJS/.env"});
+const uri = process.env.uri
 
+// const { uri } = process.env
 //application/x-www-form-urlencoded 
 //이렇게 된 데이터를 분석해서 가져올수 있게 해준다.
 app.use(bodyParser.urlencoded({extended: true}));
@@ -13,14 +16,18 @@ app.use(bodyParser.json());
 const  { User } = require("./models/User");
 
 //몽고 db연결
+// const mongoose = require('mongoose')
+// mongoose.connect('mongodb://localhost:27017')
+// .then(() => console.log('MongoDB Connected...'))
+// .catch(err => console.log(err))
+
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:27017')
+mongoose.connect(uri)
 .then(() => console.log('MongoDB Connected...'))
 .catch(err => console.log(err))
 
-
 app.get('/', (req, res) => {
-  res.send('Hello World! abc')
+  res.send('Hello World!')
 })
 
 app.post('/join', (req, res) => {
