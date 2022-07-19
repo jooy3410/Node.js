@@ -46,7 +46,7 @@ app.post('/join', (req, res) => {
         return res.json({success: false, err })
       }
       //성공했다면 이것을 보내준다.
-      console.log("success")
+      console.log("join success")
       return res.status(200).json({
         success: true
       })
