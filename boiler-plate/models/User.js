@@ -58,6 +58,10 @@ userSchema.pre('save', function(next){
             next()
         });
     });
+    //비밀번호를 바꾸는게 아니라 다른것을 바꿀때에는 next로해줘야 바로 index.js의 user.save로 나갈 수 있다.
+    }else {
+        //next()가 없기 때문에 계속 머물게 된다.
+        next()
     }
 
 })
