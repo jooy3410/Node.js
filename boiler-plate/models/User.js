@@ -66,6 +66,24 @@ userSchema.pre('save', function(next){
 
 })
 
+
+//비밀번호 일치여부를 확인하는 메서드를 모델에서 만들어 주면된다.
+//userSchema를 가져온다음에 메서드. 메서드이름
+userSchema.methods.comparePassword = function(plainPassword, cb){
+
+    //plainPassword 1234567 == 암호화된 페스워드인지 확인 해야하는 작업을 만들어야한다.
+    //bcrypt를 가져와서 입력한비밀번호랑
+    bcrypt.compare(plainPassword, this.password, function(err, isMatch){
+        //만약 에러라면 리턴한다. 콜백함수를
+        if(err) {
+        }return cb(err)
+        //그런데 null값이 오면(err가 발생하지 않았다면) isMatch(비밀번호가 같다)면
+        //index.js에 있는 isMatch로 간다.
+        cb(null, isMatch)
+    })
+}
+
+
 //스키마
 const User = mongoose.model('User', userSchema)
 

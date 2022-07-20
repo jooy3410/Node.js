@@ -66,9 +66,16 @@ app.post('/login', (req,res) => {
   })
 
   //요청된 이메일이 데이터 베이스에 있다면 비밀번호가 일치하는지 확인
+  //두번째 아규먼트는 콜백함수이다. 처음은 에러 그다음 받아온 데이터 에러가 맞는지 확인
 
   user.comparePassword(req.body.password, (err, isMatch) =>{
-
+    if(!isMatch){
+      return res.json({loginSuccess :false, message: "비밀번호가 틀렸습니다."})
+    }
+    //비밀번호가 맞았다면 토큰생성하기
+    user.genrateToken((err, user) => {
+      
+    })
   })
 
   //그 유저를 위한 토큰 생성
