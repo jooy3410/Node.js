@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const  saltRounds  =  10 ; 
+const saltRounds  =  10 ; 
+const jwt = require('jsonwebtoken');
 
 const userSchema = mongoose.Schema({
     name: {
@@ -76,11 +77,30 @@ userSchema.methods.comparePassword = function(plainPassword, cb){
     bcrypt.compare(plainPassword, this.password, function(err, isMatch){
         //만약 에러라면 리턴한다. 콜백함수를
         if(err) {
-        }return cb(err)
+            return cb(err)
+        }
         //그런데 null값이 오면(err가 발생하지 않았다면) isMatch(비밀번호가 같다)면
         //index.js에 있는 isMatch로 간다.
         cb(null, isMatch)
     })
+}
+
+userSchema.methods.genrateToken = function(cb) {
+    //jsonwebtoken을 이용해서 token을 생성하기
+
+    let user = this;
+
+    let token = jwt.sign(user._id.toHexString(), 'secretToken')
+
+    // user._id + 'secretToken' = token
+
+    user.token = token
+    user.save(function(err, user) {
+        if(err){
+            return cb(err)
+        } cb(null, user)
+    })
+
 }
 
 

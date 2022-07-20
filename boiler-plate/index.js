@@ -4,6 +4,7 @@ const port = 5000
 const bodyParser = require('body-parser');
 require("dotenv").config({ path: "/data/node/NodeJS/.env"});
 const uri = process.env.uri
+const cookieParser = require('cookie-parser');
 
 // const { uri } = process.env
 //application/x-www-form-urlencoded 
@@ -11,7 +12,7 @@ const uri = process.env.uri
 app.use(bodyParser.urlencoded({extended: true}));
 //application/json json타입으로 된것을 가져올수 있게 해준다.
 app.use(bodyParser.json());
-
+app.use(cookieParser());
 //models/User.js import
 const  { User } = require("./models/User");
 
@@ -54,7 +55,7 @@ app.post('/join', (req, res) => {
 })
 
 app.post('/login', (req,res) => {
-  //요청된 이메일이 맞는지확인
+  //첫번째 요청된 이메일이 맞는지확인
   //user모델을 가져오고 mongodb찾는 메서드인 findone을 사용한다.
   User.findOne({ email: req.body.email }, (err, user) => {
     if(!user){
@@ -63,7 +64,7 @@ app.post('/login', (req,res) => {
         messeage: "제공된 이메일의 해당하는 유저가 없습니다."
       })
     }
-  })
+
 
   //요청된 이메일이 데이터 베이스에 있다면 비밀번호가 일치하는지 확인
   //두번째 아규먼트는 콜백함수이다. 처음은 에러 그다음 받아온 데이터 에러가 맞는지 확인
@@ -72,13 +73,23 @@ app.post('/login', (req,res) => {
     if(!isMatch){
       return res.json({loginSuccess :false, message: "비밀번호가 틀렸습니다."})
     }
-    //비밀번호가 맞았다면 토큰생성하기
+
+    //세번째 비밀번호가 맞았다면 토큰생성하기
     user.genrateToken((err, user) => {
-      
+      if(err){
+        return res.status(400).send(err);
+      } 
+      //토큰을 저장한다. 어디에? 쿠키, 로컬스토리지, 세션
+      //쿠키에 저장하겠다
+      //쿠키에 저장하려면 cokie-parser라이브러리를 설치
+      res.cookie("x_auth", user.token)
+      .status(200)
+      .json({loginSuccess: true, userId: user._id});
+
     })
   })
 
-  //그 유저를 위한 토큰 생성
+})
 })
 
 app.listen(port, () => {
