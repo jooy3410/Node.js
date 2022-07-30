@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 require("dotenv").config({ path: "/data/node/NodeJS/.env"});
 const uri = process.env.uri
 const cookieParser = require('cookie-parser');
+const{ auth } = require("./middleware/auth");
+
 
 // const { uri } = process.env
 //application/x-www-form-urlencoded 
@@ -90,6 +92,20 @@ app.post('/login', (req,res) => {
   })
 
 })
+})
+
+app.get('/api/users/auth', auth, (req, res) =>{
+//auth란? 
+//auth라는 미들웨어를 추가해준다 엔드포인트에서 리퀘스틑를 받은다음에 콜벡펑션을하기전에 중간에 뭐를 해주는게 미들웨어이다.
+  //여기까지 미들어ㅞ어를 통과해 왔다는 말은 auth가 true라는 말이다.
+  res.status(200).json({
+    _id: req.user._id,
+    isAdmin: req.user.role === 0 ? false : true,
+    isAuth: true,
+    email: req.user.email,
+    name: req.user.name,
+    role: req.user.rle
+  })
 })
 
 app.listen(port, () => {
