@@ -12,7 +12,8 @@ let auth = (req, res, next) => {
     User.findByToken(token, (err, user) =>{
         if(err) throw  err;
         if(!user) return res.json({ isAuth: false, error: true})
-
+        //req에 token과 user를 넣어주는이유
+        //넣어줌으로써 index.js에서 req.user,req,token을 쓰면 바로사용할 수 있어서 쓴다.
         req.token = token;
         req.user = user;
         //역할을 다했으면 다음단계로 넘어갈수있게 next();를 마지막에 써준다.
