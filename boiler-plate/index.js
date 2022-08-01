@@ -56,7 +56,7 @@ app.post('/join', (req, res) => {
     })
 })
 
-app.post('/login', (req,res) => {
+app.post('/api/users/login', (req,res) => {
   //첫번째 요청된 이메일이 맞는지확인
   //user모델을 가져오고 mongodb찾는 메서드인 findone을 사용한다.
   User.findOne({ email: req.body.email }, (err, user) => {
@@ -84,6 +84,7 @@ app.post('/login', (req,res) => {
       //토큰을 저장한다. 어디에? 쿠키, 로컬스토리지, 세션
       //쿠키에 저장하겠다
       //쿠키에 저장하려면 cokie-parser라이브러리를 설치
+      console.log("로그인 성공")
       res.cookie("x_auth", user.token)
       .status(200)
       .json({loginSuccess: true, userId: user._id});
@@ -107,6 +108,24 @@ app.get('/api/users/auth', auth, (req, res) =>{
     role: req.user.rle
   })
 })
+
+app.get('/api/users/logout', auth, (req, res) => {
+
+  User.findOneAndUpdate({ _id: req.user._id},
+    {token: ""},
+    (err, user) =>{
+      if(err){
+        console.log("로그아웃 실패")
+        return res.json({success: false, err});
+      }
+      console.log("로그아웃 성공")
+      return res.status(200).send({
+        success: true
+      })
+      })
+      
+    })
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
