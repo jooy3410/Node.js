@@ -10,25 +10,26 @@
     <h1>xss_test</h1>
     <br><br>
 
-    <div>
+    <!-- <div>
        <form>
         <input type="text">
         <input type="submit">
        </form>
 
         
-    </div>
+    </div> -->
 
-    <!-- <input id='input'></input>
-        <button id='input-btn'>submit</button>
-
+    <input id='input'></input>
+    <button id='input-btn'>submit</button>
+    
     <div id='submitted-input'></div>
-
-    <script>    document.querySelector('#input-btn').addEventListener("click", (e) => {
-        const userInput = document.querySelector('#input').value
-      
-        document.querySelector('#submitted-input').innerHTML = userInput
-      })</script> -->
-
+    
+ <script>
+    document.querySelector('#input-btn').addEventListener("click", (e) => {
+      const userInput = document.querySelector('#input').value
+    
+      document.querySelector('#submitted-input').innerHTML = userInput
+    })
+</script>
 </body>
 </html>
