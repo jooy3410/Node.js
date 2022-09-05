@@ -1,76 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
 import {
-  BrowserRouter as Router,
-  Switch,
   Route,
-  Link
+  Routes,
+  BrowserRouter
 } from "react-router-dom";
+
+function Home() {
+  return <h2>Home</h2>;
+}
+
+function About() {
+  return <h2>About</h2>;
+}
+
+function Users() {
+  return <h2>Users</h2>;
+}
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <div>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/dashboard">Dashboard</Link>
-          </li>
-        </ul>
-
-        <hr />
-
-        {/*
-          A <Switch> looks through all its children <Route>
-          elements and renders the first one whose path
-          matches the current URL. Use a <Switch> any time
-          you have multiple routes, but you want only one
-          of them to render at a time
-        */}
-        <Switch>
-          <Route exact path="/">
-            <Home />
+        {/* A <Switch> looks through its children <Route>s and
+          renders the first one that matches the current URL. */}
+        <Routes>
+          <Route path="/about" element={About()}>
+            <Route />
           </Route>
-          <Route path="/about">
-            <About />
+          <Route path="/users" element={Users()}>
+            <Route />
           </Route>
-          <Route path="/dashboard">
-            <Dashboard />
+          <Route path="/" element={Home()}>
+            <Route />
           </Route>
-        </Switch>
+        </Routes>
       </div>
-    </Router>
+    </BrowserRouter>
   );
 }
 
 export default App;
-
-
-function Home() {
-  return (
-    <div>
-      <h2>Home </h2>
-    </div>
-  );
-}
-
-function About() {
-  return (
-    <div>
-      <h2>About</h2>
-    </div>
-  );
-}
-
-function Dashboard() {
-  return (
-    <div>
-      <h2>Dashboard</h2>
-    </div>
-  );
-}
