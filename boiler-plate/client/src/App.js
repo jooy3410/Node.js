@@ -1,21 +1,12 @@
-import React from "react";
+import React, { Component } from "react";
 import {
   Route,
   Routes,
   BrowserRouter
 } from "react-router-dom";
-
-function Home() {
-  return <h2>Home</h2>;
-}
-
-function About() {
-  return <h2>About</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
-}
+import LandingPage from './components/views/LandingPage/LandingPage'
+import LoginPage from "./components/views/LoginPage/LoginPage";
+import RegisterPage from "./components/views/RegisterPage/RegisterPage";
 
 function App() {
   return (
@@ -24,15 +15,18 @@ function App() {
         {/* A <Switch> looks through its children <Route>s and
           renders the first one that matches the current URL. */}
         <Routes>
-          <Route path="/about" element={About()}>
-            <Route />
+          <Route path="/" element={<LandingPage />}>
+            
           </Route>
-          <Route path="/users" element={Users()}>
-            <Route />
+
+          <Route path="/Login" element={<LoginPage />}>
+            
           </Route>
-          <Route path="/" element={Home()}>
-            <Route />
+
+          <Route path="/Register" element={<RegisterPage />}>
+            
           </Route>
+
         </Routes>
       </div>
     </BrowserRouter>
